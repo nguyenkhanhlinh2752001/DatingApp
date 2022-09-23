@@ -1,0 +1,55 @@
+dotnet new --list
+
+dotnet new sln -n DatingApp
+//là 1 cấp lớn hơn của project
+//gop nhiều project khác nhau
+//gọi/ reference đến function/method/đối tượng nằm ở project khác thông qua solution
+
+dotnet watch run -p .\DatingApp.API\
+
+dotnet new gitignore
+
+dotnet new webapi -n DatingApp.API -o DatingApp.API
+
+dotnet sln -h
+
+dotnet sln add DatingApp.API
+//Add DatingApp.API project vào solution
+
+//file .vscode/launch.json hỗ trợ debug cho application
+//file .vscode/tasks.json sẽ define các tasks build/public/watch
+
+dotnet tool update --global dotnet-ef
+
+//ef-db-context
+//ef-db-set
+
+//To add DataContext, add this code to Program.cs
+using DatingApp.DatingApp.API.Database;
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<DatingApp.DatingApp.API.Database.DataContext>(x => x.UseSqlServer(connectionString));
+
+//migration: controller/manage Version of Database
+
+dotnet ef migrations -h
+
+//stop dotnet watch run -p .\DatingApp.API\
+dotnet ef migrations list -p .\DatingApp.API\
+
+//-o : output
+//Create folder Migrations in folder Database
+dotnet ef migrations add InitialDB -p .\DatingApp.API\ -o Database/Migrations
+
+dotnet ef database update -p .\DatingApp.API\
+
+//check sql server has DB
+
+//asp-api-controller
+
+//Edit .csproj file
+from <Nullable>enable</Nullable>
+to   <Nullable>disable</Nullable>
+
+//Add service, add this code to Program.cs
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
